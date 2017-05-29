@@ -4,8 +4,7 @@
   "description": "A feed forward neural network with injectable layers for node.js and browsers",
   "main": "lib/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "prepublish": "node_modules/babel-cli/bin/babel.js src --out-dir lib"
+    "test": "./prepublish.bash;node ./runTests.js"
   },
   "babel": {
     "presets": ["es2015"]

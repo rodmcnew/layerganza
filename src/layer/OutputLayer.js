@@ -1,29 +1,24 @@
 // import {gaussRandom} from '../math/random'
 // import {assertIsNumber} from '../assert/assert'
 
-// function logWeightUpdate(description, update, oldValue, newValue, gradient) {
-//     console.log(
-//         'Updating weight ' + description + ' by: ' + update,
-//         'weight:' + oldValue + '->' + newValue,
-//         'gradient:' + gradient
-//     )
-// }
-
 export default class OutputLayer {
-    constructor(nodeCount, inputLayer, activationFunction, learningRate) {
+    constructor(nodeCount, activationFunction, optimizer) {
         this.nodeCount = nodeCount;
-        this.inputCount = inputLayer.nodeCount;
-        this.inputNodeCount = this.inputCount + 1;//Add 1 for the bias node
-        this.weights = new Float64Array(nodeCount * this.inputNodeCount);
-        for (var weightI = 0, weightLen = this.weights.length; weightI < weightLen; weightI++) {
-            this.weights[weightI] = Math.random() - 0.5; //gaussRandom(); //@TODO do better?
-        }
         this.outputs = new Float64Array(nodeCount);
         this.activationFunction = activationFunction.xToY;
         this.activationFunctionDerivative = activationFunction.yToSlope;
         this.errorGradients = new Float64Array(nodeCount);
-        this.learningRate = learningRate;
+        this.optimizer = optimizer;
+    }
+
+    setInputLayer(inputLayer) {
         this.inputLayer = inputLayer;
+        this.inputCount = inputLayer.nodeCount;
+        this.inputNodeCount = this.inputCount + 1;//Add 1 for the bias node
+        this.weights = new Float64Array(this.nodeCount * this.inputNodeCount);
+        for (var weightI = 0, weightLen = this.weights.length; weightI < weightLen; weightI++) {
+            this.weights[weightI] = Math.random() - 0.5; //gaussRandom(); //@TODO do better?
+        }
     }
 
     feedForward() {
@@ -75,36 +70,24 @@ export default class OutputLayer {
         var nodeCount = this.nodeCount;
         var inputCount = this.inputCount;
         var inputs = this.inputs;
-        var learningRate = this.learningRate;
         var errorGradients = this.errorGradients;
+        var calculateWeightUpdate = this.optimizer.calculateUpdate;
 
         for (var neuronI = 0; neuronI < nodeCount; neuronI++) {
             for (var inputI = 0; inputI < inputCount; inputI++) {
-                // logWeightUpdate(
-                //     neuronI + ':' + inputI,
-                //     -this.learningRate * this.inputs[inputI] * this.errorGradients[neuronI],
-                //     this.weights[neuronI * this.inputCount + inputI],
-                //     this.weights[neuronI * this.inputCount + inputI] -
-                //     this.learningRate * this.inputs[inputI] * this.errorGradients[neuronI],
-                //     this.errorGradients[neuronI]
-                // );
-
-                weights[neuronI * inputNodeCount + inputI] -=
-                    learningRate * inputs[inputI] * errorGradients[neuronI];
+                weights[neuronI * inputNodeCount + inputI] +=
+                    calculateWeightUpdate(
+                        inputs[inputI] * errorGradients[neuronI],
+                        neuronI * inputNodeCount + inputI
+                    );
 
                 // assertIsNumber(this.weights[neuronI * this.inputNodeCount + inputI], 'Weight');
             }
-
-            // logWeightUpdate(
-            //     neuronI + ':' + inputI,
-            //     -this.learningRate * this.errorGradients[neuronI],
-            //     this.weights[neuronI * this.inputCount + inputI],
-            //     this.weights[neuronI * this.inputCount + inputI] -
-            //     this.learningRate * this.errorGradients[neuronI],
-            //     this.errorGradients[neuronI]
-            // );
-            weights[neuronI * inputNodeCount + inputCount] -= //Do the bias node weight
-                learningRate * errorGradients[neuronI];
+            weights[neuronI * inputNodeCount + inputCount] += //Do the bias node weight
+                calculateWeightUpdate(
+                    errorGradients[neuronI],
+                    neuronI * inputNodeCount + inputCount
+                );
 
             // assertIsNumber(this.weights[neuronI * this.inputNodeCount + this.inputCount], 'Bias weight');
         }
