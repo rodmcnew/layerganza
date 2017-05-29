@@ -1,5 +1,10 @@
 This is a feed forward neural network with injectable layers, activation functions, and optimizers.
 
+Installation:
+```bash
+npm install layer-oriented-deep-learning-network-js
+```
+
 Example usage:
 ```js
 import DeepNetwork from 'layer-oriented-deep-learning-network-js/lib/DeepNetwork'
