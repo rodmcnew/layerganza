@@ -1,6 +1,6 @@
+import DeepNetwork from './DeepNetwork'
 import Linear from '../activation-function/Linear'
 import LeakyRelu from '../activation-function/LeakyRelu'
-import DeepNetwork from './DeepNetwork'
 import InputLayer from '../layer/InputLayer'
 import HiddenLayer from '../layer/HiddenLayer'
 import OutputLayer from '../layer/OutputLayer'
@@ -23,4 +23,4 @@ var trainingSets = [//Outputs: [XOR, OR, AND, GreaterThan, LessThan, NotBoth]
 ];
 shuffleTrain(network, trainingSets, 100);
 
-// console.log('Output for input [1,1]:', network.invoke([1, 1]));
+//console.log('Output for input [1,1]:', network.invoke([1, 1]));
