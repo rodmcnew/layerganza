@@ -14,7 +14,7 @@
     "type": "git",
     "url": "git+https://github.com/rodmcnew/layer-oriented-deep-learning-network-js.git"
   },
-  "author": "",
+  "author": "Rod McNew",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/rodmcnew/layer-oriented-deep-learning-network-js/issues"
