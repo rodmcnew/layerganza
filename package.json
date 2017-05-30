@@ -1,13 +1,15 @@
 {
   "name": "layerganza",
-  "version": "2.3.1",
+  "version": "2.3.2",
   "description": "A feed-forward neural network with injectable layers, activation functions, and optimizers.",
   "main": "lib/index.js",
   "scripts": {
     "test": "./prepublish.bash;node ./runTests.js"
   },
   "babel": {
-    "presets": ["es2015"]
+    "presets": [
+      "es2015"
+    ]
   },
   "repository": {
     "type": "git",
@@ -23,5 +25,17 @@
     "babel-cli": "^6.24.1",
     "babel-core": "^6.24.1",
     "babel-preset-es2015": "^6.24.1"
-  }
+  },
+  "keywords": [
+    "deep",
+    "learning",
+    "neural",
+    "network",
+    "gradient",
+    "desecent",
+    "activation",
+    "function",
+    "relu",
+    "backpropagation"
+  ],
 }
