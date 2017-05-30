@@ -1,12 +1,3 @@
-This is a feed forward neural network with injectable layers, activation functions, and optimizers.
-
-Installation:
-```bash
-npm install layerganza
-```
-
-Example usage:
-```js
 import {
     Network,
     InputLayer,
@@ -16,7 +7,7 @@ import {
     LeakyRelu,
     AdamOptimizer,
     shuffleTrain
-} from 'layerganza'
+} from './index'
 
 //Create the model
 var network = new Network(
@@ -34,8 +25,7 @@ var trainingSets = [//Outputs: [XOR, OR, AND, GreaterThan, LessThan, NotBoth]
     [[1, 0], [1, 1, 0, 1, 0, 0]],
     [[1, 1], [0, 1, 1, 0, 0, 0]],
 ];
-shuffleTrain(network, trainingSets, 200);
+shuffleTrain(network, trainingSets, 300);
 
 //Get some output from the model
-console.log('Output for input [1,1]:', network.invoke([1, 1]));
-```
+//console.log('Output for input [1,1]:', network.invoke([1, 1]));

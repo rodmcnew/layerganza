@@ -17,6 +17,7 @@ export default class OutputLayer {
         for (var weightI = 0, weightLen = this.weights.length; weightI < weightLen; weightI++) {
             this.weights[weightI] = Math.random() - 0.5; //@TODO would a gaussian distribution work better?
         }
+        this.optimizer.init(this.weights.length);
     }
 
     feedForward() {

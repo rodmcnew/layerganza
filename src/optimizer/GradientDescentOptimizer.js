@@ -1,7 +1,11 @@
-export default class StochasticGradientDescent {
+export default class GradientDescentOptimizer {
     constructor(learningRate) {
         this.learningRate = learningRate;
         this.optimizeWeights = this.optimizeWeights.bind(this);
+    }
+
+    init(weightCount) {
+        //Do nothing. We don't use weight count in this optimizer.
     }
 
     optimizeWeights(weights, weightErrorGradients) {

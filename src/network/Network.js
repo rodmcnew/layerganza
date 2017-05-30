@@ -1,4 +1,4 @@
-export default class DeepNetwork {
+export default class Network {
     constructor(layers) {
         if (layers.length !== 3) {
             throw new Error('Having more or less than 1 hidden layer is not yet supported.')

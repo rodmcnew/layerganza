@@ -4,7 +4,7 @@ function log(epoch, setNumber, inputs, targetOutputs, outputs) {
     // console.log('inputs:', inputs);
     var errors = new Array(outputs.length);
     for (var i = 0, len = outputs.length; i < len; i++) {
-        errors[i] = (targetOutputs[i] - outputs[i]).toFixed(4);
+        errors[i] = Math.abs(targetOutputs[i] - outputs[i]).toFixed(4);
     }
     console.log(
         epoch + ':' + setNumber,
