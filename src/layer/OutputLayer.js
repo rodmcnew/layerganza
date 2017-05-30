@@ -74,7 +74,7 @@ export default class OutputLayer {
             for (var inputI = 0; inputI < inputCount; inputI++) {
                 this.weightErrorGradients[neuronI * inputNodeCount + inputI] = inputs[inputI] * errorGradients[neuronI];
             }
-            this.weightErrorGradients[neuronI * inputNodeCount + inputI] = errorGradients[neuronI];
+            this.weightErrorGradients[neuronI * inputNodeCount + inputI] = errorGradients[neuronI];//Bias node
         }
     }
 
