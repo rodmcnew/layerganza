@@ -2,19 +2,19 @@ This is a feed forward neural network with injectable layers, activation functio
 
 Installation:
 ```bash
-npm install layer-oriented-deep-learning-network-js
+npm install layerganza
 ```
 
 Example usage:
 ```js
-import DeepNetwork from 'layer-oriented-deep-learning-network-js/lib/DeepNetwork'
-import Linear from 'layer-oriented-deep-learning-network-js/lib/activation-function/Linear'
-import LeakyRelu from 'layer-oriented-deep-learning-network-js/lib/activation-function/LeakyRelu'
-import InputLayer from 'layer-oriented-deep-learning-network-js/lib/layer/InputLayer'
-import HiddenLayer from 'layer-oriented-deep-learning-network-js/lib/layer/HiddenLayer'
-import OutputLayer from 'layer-oriented-deep-learning-network-js/lib/layer/OutputLayer'
-import StochasticGradientDescent from 'layer-oriented-deep-learning-network-js/lib/optimizer/StochasticGradientDescent'
-import shuffleTrain from 'layer-oriented-deep-learning-network-js/lib/trainer/shuffleTrain'
+import DeepNetwork from 'layerganza/lib/DeepNetwork'
+import Linear from 'layerganza/lib/activation-function/Linear'
+import LeakyRelu from 'layerganza/lib/activation-function/LeakyRelu'
+import InputLayer from 'layerganza/lib/layer/InputLayer'
+import HiddenLayer from 'layerganza/lib/layer/HiddenLayer'
+import OutputLayer from 'layerganza/lib/layer/OutputLayer'
+import StochasticGradientDescent from 'layerganza/lib/optimizer/StochasticGradientDescent'
+import shuffleTrain from 'layerganza/lib/trainer/shuffleTrain'
 
 //Create the model
 var network = new DeepNetwork(

@@ -1,6 +1,6 @@
 {
-  "name": "layer-oriented-deep-learning-network-js",
-  "version": "2.2.0",
+  "name": "layerganza",
+  "version": "2.3.0",
   "description": "A feed forward neural network with injectable layers for node.js and browsers",
   "main": "lib/index.js",
   "scripts": {
@@ -11,14 +11,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/rodmcnew/layer-oriented-deep-learning-network-js.git"
+    "url": "git+https://github.com/rodmcnew/layerganzaZ.git"
   },
   "author": "Rod McNew",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/rodmcnew/layer-oriented-deep-learning-network-js/issues"
+    "url": "https://github.com/rodmcnew/layerganza/issues"
   },
-  "homepage": "https://github.com/rodmcnew/layer-oriented-deep-learning-network-js#readme",
+  "homepage": "https://github.com/rodmcnew/layerganza#readme",
   "devDependencies": {
     "babel-cli": "^6.24.1",
     "babel-core": "^6.24.1",
