@@ -1,7 +1,7 @@
 {
   "name": "layerganza",
-  "version": "2.3.0",
-  "description": "A feed forward neural network with injectable layers for node.js and browsers",
+  "version": "2.3.1",
+  "description": "A feed-forward neural network with injectable layers, activation functions, and optimizers.",
   "main": "lib/index.js",
   "scripts": {
     "test": "./prepublish.bash;node ./runTests.js"
