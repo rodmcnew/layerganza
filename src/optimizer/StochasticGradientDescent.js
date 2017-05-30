@@ -5,8 +5,11 @@ export default class StochasticGradientDescent {
     }
 
     optimizeWeights(weights, weightErrorGradients) {
+        //Defining locally speeds up the loop below by reducing object property access
+        var learningRate = this.learningRate;
+
         for (var i = 0, len = weights.length; i < len; i++) {
-            weights[i] -= this.learningRate * weightErrorGradients[i];
+            weights[i] -= learningRate * weightErrorGradients[i];
         }
     }
 }

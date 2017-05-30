@@ -45,36 +45,24 @@ export default class OutputLayer {
     }
 
     backPropagateCalculateErrorGradient(targetOutputs) {
-        this.calculateActivationErrorGradients(targetOutputs);
-        this.calculateWeightErrorGradients();
-    }
-
-    calculateActivationErrorGradients(targetOutputs) {
         //Defining these locally speeds up the loop below by reducing object property access
         var nodeCount = this.nodeCount;
         var errorGradients = this.errorGradients;
         var outputs = this.outputs;
         var activationFunctionDerivative = this.activationFunctionDerivative;
-
-        for (var neuronI = 0; neuronI < nodeCount; neuronI++) {
-            errorGradients[neuronI] = (outputs[neuronI] - targetOutputs[neuronI])
-                * activationFunctionDerivative(outputs[neuronI]);
-        }
-    }
-
-    calculateWeightErrorGradients() {
-        //Defining these locally speeds up the loop below by reducing object property access
         var inputNodeCount = this.inputNodeCount;
-        var nodeCount = this.nodeCount;
         var inputCount = this.inputCount;
         var inputs = this.inputs;
-        var errorGradients = this.errorGradients;
 
         for (var neuronI = 0; neuronI < nodeCount; neuronI++) {
+            var activationErrorGradient = (outputs[neuronI] - targetOutputs[neuronI])
+                * activationFunctionDerivative(outputs[neuronI]);
+            errorGradients[neuronI] = activationErrorGradient;
+
             for (var inputI = 0; inputI < inputCount; inputI++) {
-                this.weightErrorGradients[neuronI * inputNodeCount + inputI] = inputs[inputI] * errorGradients[neuronI];
+                this.weightErrorGradients[neuronI * inputNodeCount + inputI] = inputs[inputI] * activationErrorGradient;
             }
-            this.weightErrorGradients[neuronI * inputNodeCount + inputI] = errorGradients[neuronI];//Bias node
+            this.weightErrorGradients[neuronI * inputNodeCount + inputI] = activationErrorGradient;//Bias node
         }
     }
 
