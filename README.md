@@ -7,7 +7,7 @@ npm install layerganza
 
 Example usage:
 ```js
-import DeepNetwork from 'layerganza/lib/DeepNetwork'
+import DeepNetwork from 'layerganza/lib/network/DeepNetwork'
 import Linear from 'layerganza/lib/activation-function/Linear'
 import LeakyRelu from 'layerganza/lib/activation-function/LeakyRelu'
 import InputLayer from 'layerganza/lib/layer/InputLayer'
