@@ -1,6 +1,3 @@
-// import {gaussRandom} from '../math/random'
-// import {assertIsNumber} from '../assert/assert'
-
 export default class OutputLayer {
     constructor(nodeCount, activationFunction, optimizer) {
         this.nodeCount = nodeCount;
@@ -16,8 +13,9 @@ export default class OutputLayer {
         this.inputCount = inputLayer.nodeCount;
         this.inputNodeCount = this.inputCount + 1;//Add 1 for the bias node
         this.weights = new Float64Array(this.nodeCount * this.inputNodeCount);
+        this.weightErrorGradients = new Float64Array(this.nodeCount * this.inputNodeCount);
         for (var weightI = 0, weightLen = this.weights.length; weightI < weightLen; weightI++) {
-            this.weights[weightI] = Math.random() - 0.5; //gaussRandom(); //@TODO do better?
+            this.weights[weightI] = Math.random() - 0.5; //@TODO would a gaussian distribution work better?
         }
     }
 
@@ -36,20 +34,22 @@ export default class OutputLayer {
         for (var neuronI = 0; neuronI < nodeCount; neuronI++) {
             var sum = 0;
             for (var inputI = 0; inputI < inputCount; inputI++) {
-                // assertIsNumber(this.inputs[inputI], 'Input');
                 sum += inputs[inputI] * weights[neuronI * inputNodeCount + inputI];
             }
             sum += weights[neuronI * inputNodeCount + inputCount];//Bias node that always inputs "1"
 
             outputs[neuronI] = activationFunction(sum);
-
-            // assertIsNumber(this.outputs[neuronI], 'Neuron output');
         }
 
         return outputs;
     }
 
     backPropagateCalculateErrorGradient(targetOutputs) {
+        this.calculateActivationErrorGradients(targetOutputs);
+        this.calculateWeightErrorGradients();
+    }
+
+    calculateActivationErrorGradients(targetOutputs) {
         //Defining these locally speeds up the loop below by reducing object property access
         var nodeCount = this.nodeCount;
         var errorGradients = this.errorGradients;
@@ -59,37 +59,26 @@ export default class OutputLayer {
         for (var neuronI = 0; neuronI < nodeCount; neuronI++) {
             errorGradients[neuronI] = (outputs[neuronI] - targetOutputs[neuronI])
                 * activationFunctionDerivative(outputs[neuronI]);
-            // assertIsNumber(this.errorGradients[neuronI], 'Error gradient');
         }
     }
 
-    backPropagateOptimize() {
+    calculateWeightErrorGradients() {
         //Defining these locally speeds up the loop below by reducing object property access
         var inputNodeCount = this.inputNodeCount;
-        var weights = this.weights;
         var nodeCount = this.nodeCount;
         var inputCount = this.inputCount;
         var inputs = this.inputs;
         var errorGradients = this.errorGradients;
-        var calculateWeightUpdate = this.optimizer.calculateUpdate;
 
         for (var neuronI = 0; neuronI < nodeCount; neuronI++) {
             for (var inputI = 0; inputI < inputCount; inputI++) {
-                weights[neuronI * inputNodeCount + inputI] +=
-                    calculateWeightUpdate(
-                        inputs[inputI] * errorGradients[neuronI],
-                        neuronI * inputNodeCount + inputI
-                    );
-
-                // assertIsNumber(this.weights[neuronI * this.inputNodeCount + inputI], 'Weight');
+                this.weightErrorGradients[neuronI * inputNodeCount + inputI] = inputs[inputI] * errorGradients[neuronI];
             }
-            weights[neuronI * inputNodeCount + inputCount] += //Do the bias node weight
-                calculateWeightUpdate(
-                    errorGradients[neuronI],
-                    neuronI * inputNodeCount + inputCount
-                );
-
-            // assertIsNumber(this.weights[neuronI * this.inputNodeCount + this.inputCount], 'Bias weight');
+            this.weightErrorGradients[neuronI * inputNodeCount + inputI] = errorGradients[neuronI];
         }
+    }
+
+    backPropagateOptimize() {
+        this.optimizer.optimizeWeights(this.weights, this.weightErrorGradients);
     }
 }

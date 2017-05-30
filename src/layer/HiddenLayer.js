@@ -1,12 +1,11 @@
 import OutputLayer from './OutputLayer'
-// import {assertIsNumber} from '../assert/assert'
 
 export default class HiddenLayer extends OutputLayer {
     setOutputLayer(outputLayer) {
         this.outputLayer = outputLayer;
     }
 
-    backPropagateCalculateErrorGradient() {
+    calculateActivationErrorGradients() {
         //Defining these locally speeds up the loop below by reducing object property access
         var nodeCount = this.nodeCount;
         var errorGradients = this.errorGradients;
@@ -27,8 +26,6 @@ export default class HiddenLayer extends OutputLayer {
 
             errorGradients[neuronI] = errorWithRespectToOutput
                 * activationFunctionDerivative(outputs[neuronI]);
-
-            // assertIsNumber(this.errorGradients[neuronI], 'Error gradient');
         }
     }
 }

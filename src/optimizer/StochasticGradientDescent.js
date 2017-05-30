@@ -1,10 +1,12 @@
 export default class StochasticGradientDescent {
     constructor(learningRate) {
         this.learningRate = learningRate;
-        this.calculateUpdate = this.calculateUpdate.bind(this);
+        this.optimizeWeights = this.optimizeWeights.bind(this);
     }
 
-    calculateUpdate(weightErrorGradient, weightIndex){
-        return -this.learningRate * weightErrorGradient;
+    optimizeWeights(weights, weightErrorGradients) {
+        for (var i = 0, len = weights.length; i < len; i++) {
+            weights[i] -= this.learningRate * weightErrorGradients[i];
+        }
     }
 }
