@@ -1,5 +1,12 @@
+import { HiddenLayer, InputLayer, OutputLayer } from "..";
+
 export default class Network {
-    constructor(layers) {
+    protected inputLayer: InputLayer; //@TODO depend on interfaces not classes
+    protected hiddenLayer: HiddenLayer;
+    protected outputLayer: OutputLayer;
+    protected learningTimeStep: number = 0;
+
+    constructor(layers: any) { //@TODO type
         if (layers.length !== 3) {
             throw new Error('Having more or less than 1 hidden layer is not yet supported.')
         }
@@ -14,8 +21,8 @@ export default class Network {
         this.hiddenLayer.setOutputLayer(this.outputLayer);
     }
 
-    invoke(inputs) {
-        // for (var i = 0, len = inputs.length; i < len; i++) {
+    invoke(inputs: Float64Array) {
+        // for (let i = 0, len = inputs.length; i < len; i++) {
         //     if (!isFinite(inputs[i])) {
         //         throw new Error('Neural network input is not a finite number.');
         //     }
@@ -23,9 +30,10 @@ export default class Network {
 
         this.inputLayer.feedForward(inputs);
         this.hiddenLayer.feedForward();
-        var outputs = this.outputLayer.feedForward();
+        let outputs = this.outputLayer.feedForward();
 
-        for (var i = 0, len = outputs.length; i < len; i++) {
+        //@TODO disable or put in debug mode
+        for (let i = 0, len = outputs.length; i < len; i++) {
             if (!isFinite(outputs[i])) {
                 throw new Error('Neural network output is not a finite number.');
             }
@@ -34,20 +42,21 @@ export default class Network {
         return outputs;
     }
 
-    learn(targetOutputs) {
+    learn(targetOutputs: Float64Array) {
+        this.learningTimeStep++;
         this.outputLayer.backPropagateCalculateErrorGradient(targetOutputs);
         this.hiddenLayer.backPropagateCalculateErrorGradient();
-        this.outputLayer.backPropagateOptimize();
-        this.hiddenLayer.backPropagateOptimize();
+        this.outputLayer.backPropagateOptimize(this.learningTimeStep);
+        this.hiddenLayer.backPropagateOptimize(this.learningTimeStep);
     }
 
-    loadFromJson(json) {
-        var weights = json.layers[1].weights;
-        for (var i = 0; i < weights.length; i++) { //@TODO do this inside the layers
+    loadFromJson(json: any) { //@TODO type
+        let weights = json.layers[1].weights;
+        for (let i = 0; i < weights.length; i++) { //@TODO do this inside the layers
             this.hiddenLayer.weights[i] = weights[i];
         }
         weights = json.layers[2].weights;
-        for (i = 0; i < weights.length; i++) { //@TODO do this inside the layers
+        for (let i = 0; i < weights.length; i++) { //@TODO do this inside the layers
             this.outputLayer.weights[i] = weights[i];
         }
     }
@@ -56,8 +65,8 @@ export default class Network {
         return {
             layers: [
                 {},//placeholder for future input layer info
-                {weights: Array.from(this.hiddenLayer.weights)},//@TODO do this inside the layers
-                {weights: Array.from(this.outputLayer.weights)}//@TODO do this inside the layers
+                { weights: Array.from(this.hiddenLayer.weights) },//@TODO do this inside the layers
+                { weights: Array.from(this.outputLayer.weights) }//@TODO do this inside the layers
             ]
         }; //@TODO do this inside the layers
     }

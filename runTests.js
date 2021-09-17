@@ -1,1 +1,1 @@
-var deepNetworkTest = require('./lib/test');
+let deepNetworkTest = require('./lib/test');

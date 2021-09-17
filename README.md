@@ -19,7 +19,7 @@ import {
 } from 'layerganza'
 
 //Create the model
-var network = new Network(
+let network = new Network(
     [
         new InputLayer(2),
         new HiddenLayer(100, new LeakyRelu(), new AdamOptimizer()),
@@ -28,7 +28,7 @@ var network = new Network(
 );
 
 //Train the model
-var trainingSets = [//Outputs: [XOR, OR, AND, GreaterThan, LessThan, NotBoth]
+let trainingSets = [//Outputs: [XOR, OR, AND, GreaterThan, LessThan, NotBoth]
     [[0, 0], [0, 0, 0, 0, 0, 1]],
     [[0, 1], [1, 1, 0, 0, 1, 0]],
     [[1, 0], [1, 1, 0, 1, 0, 0]],
